@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Sample backup rules file; configure to taste. See fixed
+   https://developer.android.com/guide/topics/data/autobackup
+   for details.
+   Deal with bugs in the backup rules:
+   https://issuetracker.google.com/issues/216892697
+-->
+<full-backup-content>
+   <!--
+   <include domain="sharedpref" path="."/>
+   <exclude domain="sharedpref" path="device.xml"/>
+-->
+</full-backup-content>
