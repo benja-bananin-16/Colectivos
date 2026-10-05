@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home" android:title="Inicio" android:icon="@drawable/ic_home"/>
+    <item android:id="@+id/nav_route" android:title="Ruta" android:icon="@drawable/ic_route"/>
+    <item android:id="@+id/nav_payments" android:title="Pagos" android:icon="@drawable/ic_payment"/>
+    <item android:id="@+id/nav_chat" android:title="Central" android:icon="@drawable/ic_chat"/>
+    <item android:id="@+id/nav_profile" android:title="Perfil" android:icon="@drawable/ic_profile"/>
+</menu>
