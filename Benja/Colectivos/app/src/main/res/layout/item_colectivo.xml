@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_item_colectivo"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvBadge"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_badge_yellow"
+        android:gravity="center"
+        android:textColor="@color/text_on_yellow"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="L12"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            tools:text="Línea 12 · Terminal"/>
+
+        <TextView
+            android:id="@+id/tvAsientos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp"
+            tools:text="3 asientos libres"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/tvEta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/taxi_yellow"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            tools:text="2 min"/>
+
+        <TextView
+            android:id="@+id/tvTarifa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp"
+            tools:text="$750"/>
+    </LinearLayout>
+</LinearLayout>
