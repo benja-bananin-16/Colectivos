@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta oficial CONATACOCH -->
+    <color name="brand_yellow">#FFC72C</color>
+    <color name="status_green">#33C17A</color>
+    <color name="panic_red">#FF4D3D</color>
+    <color name="panic_red_dark">#D32F2F</color>
+    <color name="text_secondary">#A39E92</color>
+
+    <!-- Base tema oscuro -->
+    <color name="bg_dark">#121212</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="input_bg">#252525</color>
+    <color name="info_bg">#1E1E1E</color>
+    <color name="card_bg">#1A1A1A</color>
+    <color name="card_border">#333333</color>
+
+    <!-- Estados -->
+    <color name="status_green_bg">#1B3320</color>
+    <color name="status_yellow">#FFC72C</color>
+    <color name="status_yellow_bg">#332D15</color>
+    <color name="status_gray">#A39E92</color>
+    <color name="status_gray_bg">#333333</color>
+
+    <!-- Compatibilidad vistas pasajero -->
+    <color name="taxi_yellow">#FFC72C</color>
+    <color name="black_bg">#121212</color>
+    <color name="surface_map">#141414</color>
+    <color name="surface_panel">#181818</color>
+    <color name="surface_card">#222222</color>
+    <color name="border_dark">#333333</color>
+    <color name="text_on_yellow">#111111</color>
+</resources>

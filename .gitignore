@@ -1,0 +1,28 @@
+# Python / Django
+backend/.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+backend/.env
+.env
+backend/staticfiles/
+backend/media/
+
+# Android / Gradle
+movil/.gradle/
+movil/build/
+movil/app/build/
+movil/local.properties
+movil/.idea/
+movil/captures/
+*.apk
+*.aab
+
+# Node / React
+node_modules/
+dist/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
