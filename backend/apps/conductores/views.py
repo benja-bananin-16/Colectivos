@@ -60,7 +60,14 @@ class ConductorListCreateView(APIView):
 
         conductor = Conductor(
             usuario_id=data['usuario_id'],
-            licencia_profesional=data['licencia_profesional'],
+            direccion=data.get('direccion', ''),
+            fono_domicilio=data.get('fono_domicilio', ''),
+            fecha_incorporacion=data.get('fecha_incorporacion'),
+            tipo_licencia=data.get('tipo_licencia', 'A2'),
+            licencia_profesional=data.get('licencia_profesional') or data.get('tipo_licencia', 'A2'),
+            municipio_licencia=data.get('municipio_licencia', ''),
+            fecha_obtencion_licencia=data.get('fecha_obtencion_licencia'),
+            duracion_licencia_anios=data.get('duracion_licencia_anios', 4),
             vencimiento_licencia=data['vencimiento_licencia'],
             estado=data.get('estado', 'EN_LINEA'),
             calificacion_promedio=data.get('calificacion_promedio', 5.0),
@@ -140,18 +147,81 @@ class MovilListCreateView(APIView):
             )
 
         movil = Movil(
-            numero_interno=data['numero_interno'],
+            numero_interno=data.get('numero_interno', ''),
             patente=patente,
             conductor_id=data.get('conductor_id') or None,
             linea_id=data.get('linea_id') or None,
             marca=data['marca'],
             modelo=data['modelo'],
             anio=data['anio'],
+            combustible=data.get('combustible', 'Bencina'),
             capacidad=data.get('capacidad', 4),
             estado=data.get('estado', 'ACTIVO'),
+            permiso_circulacion=data.get('permiso_circulacion') or {},
+            revision_tecnica=data.get('revision_tecnica') or {},
+            seguro_obligatorio=data.get('seguro_obligatorio') or {},
         )
         movil.save()
         return Response(movil.to_dict(), status=status.HTTP_201_CREATED)
+
+
+class MovilDetailView(APIView):
+    """
+    Detalle, actualización y eliminación de un móvil por ID.
+    GET/PUT/PATCH/DELETE /api/moviles/<pk>/
+    """
+    permission_classes = [IsMongoAuthenticated]
+
+    def _obtener_movil(self, pk: str):
+        try:
+            return Movil.objects(id=pk).first()
+        except Exception:
+            return None
+
+    def get(self, request, pk):
+        movil = self._obtener_movil(pk)
+        if not movil:
+            return Response({"error": "Móvil no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        return Response(movil.to_dict(), status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        movil = self._obtener_movil(pk)
+        if not movil:
+            return Response({"error": "Móvil no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = MovilSerializer(data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        d = serializer.validated_data
+        if 'patente' in d:
+            patente = d['patente'].upper().strip()
+            otro = Movil.objects(patente=patente, id__ne=movil.id).first()
+            if otro:
+                return Response({"error": f"La patente '{patente}' ya está en uso por otro vehículo."}, status=status.HTTP_400_BAD_REQUEST)
+            movil.patente = patente
+
+        campos = [
+            'numero_interno', 'conductor_id', 'linea_id', 'marca', 'modelo',
+            'anio', 'combustible', 'capacidad', 'estado',
+            'permiso_circulacion', 'revision_tecnica', 'seguro_obligatorio'
+        ]
+        for campo in campos:
+            if campo in d:
+                setattr(movil, campo, d[campo])
+
+        movil.save()
+        return Response(movil.to_dict(), status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        return self.put(request, pk)
+
+    def delete(self, request, pk):
+        movil = self._obtener_movil(pk)
+        if not movil:
+            return Response({"error": "Móvil no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        movil.delete()
+        return Response({"mensaje": "Móvil eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
 
 
 class LineaListCreateView(APIView):

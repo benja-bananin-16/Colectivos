@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import GestionRutas from './components/GestionRutas';
 import GestionConductores from './components/GestionConductores';
+import GestionAutomoviles from './components/GestionAutomoviles';
 import Documentacion from './components/Documentacion';
 import Cuotas from './components/Cuotas';
 import Reportes from './components/Reportes';
@@ -15,10 +16,11 @@ function App() {
     const saved = localStorage.getItem('conatacoch_admin_session');
     return saved ? JSON.parse(saved) : null;
   });
-  const [activeTab, setActiveTab] = useState('conductores'); // Abrir directamente en Conductores
+  const [activeTab, setActiveTab] = useState('conductores'); // Abrir en Conductores
   
+  // Estado de Conductores con persistencia
   const [conductores, setConductores] = useState(() => {
-    const saved = localStorage.getItem('conatacoch_conductores_v3');
+    const saved = localStorage.getItem('conatacoch_conductores_v4');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -30,9 +32,27 @@ function App() {
     return mockData.conductores;
   });
 
+  // Estado de Automóviles con persistencia
+  const [automoviles, setAutomoviles] = useState(() => {
+    const saved = localStorage.getItem('conatacoch_automoviles_v1');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {
+        console.error("Error parsing automoviles:", e);
+      }
+    }
+    return mockData.automoviles;
+  });
+
   useEffect(() => {
-    localStorage.setItem('conatacoch_conductores_v3', JSON.stringify(conductores));
+    localStorage.setItem('conatacoch_conductores_v4', JSON.stringify(conductores));
   }, [conductores]);
+
+  useEffect(() => {
+    localStorage.setItem('conatacoch_automoviles_v1', JSON.stringify(automoviles));
+  }, [automoviles]);
 
   const handleLogin = (user) => {
     localStorage.setItem('conatacoch_admin_session', JSON.stringify(user));
@@ -55,9 +75,30 @@ function App() {
       case 'rutas':
         return <GestionRutas />;
       case 'conductores':
-        return <GestionConductores conductores={conductores} setConductores={setConductores} onNavigateCuotas={() => setActiveTab('cuotas')} />;
+        return (
+          <GestionConductores 
+            conductores={conductores} 
+            setConductores={setConductores} 
+            automoviles={automoviles}
+            onNavigateCuotas={() => setActiveTab('cuotas')} 
+          />
+        );
+      case 'automoviles':
+        return (
+          <GestionAutomoviles 
+            automoviles={automoviles} 
+            setAutomoviles={setAutomoviles} 
+            conductores={conductores}
+          />
+        );
       case 'documentacion':
-        return <Documentacion conductores={conductores} />;
+        return (
+          <Documentacion 
+            conductores={conductores} 
+            automoviles={automoviles}
+            onNavigateAutos={() => setActiveTab('automoviles')}
+          />
+        );
       case 'cuotas':
         return <Cuotas conductores={conductores} setConductores={setConductores} />;
       case 'reportes':

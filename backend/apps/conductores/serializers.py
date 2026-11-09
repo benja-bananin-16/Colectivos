@@ -4,7 +4,14 @@ from rest_framework import serializers
 class ConductorSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
     usuario_id = serializers.CharField(required=True)
-    licencia_profesional = serializers.CharField(required=True, max_length=50)
+    direccion = serializers.CharField(required=False, allow_blank=True, default='')
+    fono_domicilio = serializers.CharField(required=False, allow_blank=True, default='')
+    fecha_incorporacion = serializers.DateTimeField(required=False, allow_null=True)
+    tipo_licencia = serializers.ChoiceField(choices=['A2', 'A3', 'A2 y A3'], default='A2', required=False)
+    licencia_profesional = serializers.CharField(required=False, max_length=50, default='A2')
+    municipio_licencia = serializers.CharField(required=False, allow_blank=True, default='')
+    fecha_obtencion_licencia = serializers.DateTimeField(required=False, allow_null=True)
+    duracion_licencia_anios = serializers.IntegerField(default=4, required=False)
     vencimiento_licencia = serializers.DateTimeField(required=True)
     estado = serializers.ChoiceField(
         choices=['EN_LINEA', 'OCUPADO', 'FUERA_SERVICIO', 'SUSPENDIDO'],
@@ -18,7 +25,14 @@ class ConductorSerializer(serializers.Serializer):
 
 
 class ConductorUpdateSerializer(serializers.Serializer):
+    direccion = serializers.CharField(required=False, allow_blank=True)
+    fono_domicilio = serializers.CharField(required=False, allow_blank=True)
+    fecha_incorporacion = serializers.DateTimeField(required=False, allow_null=True)
+    tipo_licencia = serializers.ChoiceField(choices=['A2', 'A3', 'A2 y A3'], required=False)
     licencia_profesional = serializers.CharField(required=False, max_length=50)
+    municipio_licencia = serializers.CharField(required=False, allow_blank=True)
+    fecha_obtencion_licencia = serializers.DateTimeField(required=False, allow_null=True)
+    duracion_licencia_anios = serializers.IntegerField(required=False)
     vencimiento_licencia = serializers.DateTimeField(required=False)
     estado = serializers.ChoiceField(
         choices=['EN_LINEA', 'OCUPADO', 'FUERA_SERVICIO', 'SUSPENDIDO'],
@@ -29,19 +43,27 @@ class ConductorUpdateSerializer(serializers.Serializer):
 
 class MovilSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
-    numero_interno = serializers.CharField(max_length=20, required=True)
+    numero_interno = serializers.CharField(max_length=20, required=False, allow_blank=True, default='')
     patente = serializers.CharField(max_length=15, required=True)
     conductor_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     linea_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     marca = serializers.CharField(max_length=50, required=True)
     modelo = serializers.CharField(max_length=50, required=True)
     anio = serializers.IntegerField(required=True)
+    combustible = serializers.ChoiceField(
+        choices=['Bencina', 'Diésel', 'Híbrido', 'Eléctrico', 'GLP', 'GNC'],
+        default='Bencina',
+        required=False
+    )
     capacidad = serializers.IntegerField(default=4, required=False)
     estado = serializers.ChoiceField(
         choices=['ACTIVO', 'MANTENIMIENTO', 'INACTIVO'],
         default='ACTIVO',
         required=False
     )
+    permiso_circulacion = serializers.JSONField(required=False)
+    revision_tecnica = serializers.JSONField(required=False)
+    seguro_obligatorio = serializers.JSONField(required=False)
 
 
 class LineaSerializer(serializers.Serializer):

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Car, ShieldCheck, Lock, User, AlertCircle, ArrowRight, Zap, Eye, EyeOff } from 'lucide-react';
+import { Car, Lock, User, AlertCircle, ArrowRight, Zap, Eye, EyeOff } from 'lucide-react';
 
 const Login = ({ onLogin }) => {
   const [rut, setRut] = useState('');
@@ -8,9 +8,6 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Credenciales por defecto solicitadas:
-  // RUT inventado: '9.999.999-9' (o cualquier RUT ingresado)
-  // Contraseña: 'Conatacoch2026'
   const DEFAULT_RUT = '9.999.999-9';
   const DEFAULT_PASS = 'Conatacoch2026';
 
@@ -34,7 +31,6 @@ const Login = ({ onLogin }) => {
     setLoading(true);
 
     setTimeout(() => {
-      // Verificación con las credenciales solicitadas
       if (passLimpio === DEFAULT_PASS) {
         const usuarioAdmin = {
           rut: rutLimpio,
@@ -45,13 +41,12 @@ const Login = ({ onLogin }) => {
         };
         onLogin(usuarioAdmin);
       } else {
-        setError(`Contraseña incorrecta. Recuerda que para pruebas es: ${DEFAULT_PASS}`);
+        setError(`Contraseña incorrecta. Para pruebas ingresa: ${DEFAULT_PASS}`);
         setLoading(false);
       }
     }, 400);
   };
 
-  // Botón de Inicio de Pruebas (Acceso Rápido Demo)
   const handleLoginPruebas = () => {
     setLoading(true);
     setRut(DEFAULT_RUT);
@@ -76,15 +71,17 @@ const Login = ({ onLogin }) => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '1.5rem',
-      background: 'radial-gradient(ellipse at top, #11261b 0%, #08110c 100%)'
+      backgroundColor: '#f8fafc',
+      backgroundImage: 'radial-gradient(at 50% 0%, rgba(0, 168, 89, 0.12) 0px, transparent 65%)'
     }}>
-      <div className="glass-card animate-fade-in" style={{
+      <div className="animate-fade-in" style={{
         width: '100%',
         maxWidth: '440px',
+        background: '#ffffff',
         padding: '2.5rem 2rem',
         borderRadius: '16px',
-        boxShadow: '0 20px 45px rgba(0, 0, 0, 0.5)',
-        border: '1px solid rgba(0, 168, 89, 0.25)'
+        boxShadow: '0 20px 45px rgba(0, 168, 89, 0.1), 0 2px 10px rgba(0,0,0,0.05)',
+        border: '1px solid #e2e8f0'
       }}>
         {/* Header con Logo */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -95,16 +92,16 @@ const Login = ({ onLogin }) => {
             width: '64px',
             height: '64px',
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #00a859 0%, #007a3d 100%)',
-            boxShadow: '0 8px 24px rgba(0, 168, 89, 0.4)',
+            background: 'linear-gradient(135deg, #00a859 0%, #008744 100%)',
+            boxShadow: '0 8px 20px rgba(0, 168, 89, 0.3)',
             marginBottom: '1rem'
           }}>
             <Car size={32} color="#ffffff" />
           </div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: '800', color: '#0f172a', marginBottom: '0.25rem', letterSpacing: '-0.5px' }}>
             CONATACOCH
           </h1>
-          <p style={{ color: '#34d399', fontSize: '0.9rem', fontWeight: '500' }}>
+          <p style={{ color: '#00a859', fontSize: '0.9rem', fontWeight: '600' }}>
             Portal Super Administrador
           </p>
         </div>
@@ -116,10 +113,10 @@ const Login = ({ onLogin }) => {
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1rem',
-            background: 'rgba(239, 68, 68, 0.15)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
+            background: '#fee2e2',
+            border: '1px solid #fecaca',
             borderRadius: '8px',
-            color: '#f87171',
+            color: '#b91c1c',
             fontSize: '0.85rem',
             marginBottom: '1.25rem'
           }}>
@@ -128,14 +125,14 @@ const Login = ({ onLogin }) => {
           </div>
         )}
 
-        {/* Formulario de Login Normal */}
+        {/* Formulario */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem', color: 'var(--text-secondary)', fontWeight: '500' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem', color: '#374151', fontWeight: '600' }}>
               RUT de Administrador
             </label>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <User size={18} style={{ position: 'absolute', left: '12px', color: 'var(--text-secondary)' }} />
+              <User size={18} style={{ position: 'absolute', left: '12px', color: '#64748b' }} />
               <input
                 type="text"
                 placeholder="Ej: 9.999.999-9"
@@ -144,10 +141,10 @@ const Login = ({ onLogin }) => {
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem 0.75rem 2.5rem',
-                  background: 'rgba(0, 0, 0, 0.25)',
-                  border: '1px solid var(--border-color)',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: 'white',
+                  color: '#0f172a',
                   fontSize: '0.95rem',
                   outline: 'none',
                   transition: 'border 0.2s ease'
@@ -157,11 +154,11 @@ const Login = ({ onLogin }) => {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem', color: 'var(--text-secondary)', fontWeight: '500' }}>
+            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem', color: '#374151', fontWeight: '600' }}>
               Contraseña
             </label>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '12px', color: 'var(--text-secondary)' }} />
+              <Lock size={18} style={{ position: 'absolute', left: '12px', color: '#64748b' }} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Contraseña"
@@ -170,10 +167,10 @@ const Login = ({ onLogin }) => {
                 style={{
                   width: '100%',
                   padding: '0.75rem 2.75rem 0.75rem 2.5rem',
-                  background: 'rgba(0, 0, 0, 0.25)',
-                  border: '1px solid var(--border-color)',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
                   borderRadius: '8px',
-                  color: 'white',
+                  color: '#0f172a',
                   fontSize: '0.95rem',
                   outline: 'none',
                   transition: 'border 0.2s ease'
@@ -187,7 +184,7 @@ const Login = ({ onLogin }) => {
                   right: '12px',
                   background: 'transparent',
                   border: 'none',
-                  color: 'var(--text-secondary)',
+                  color: '#64748b',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center'
@@ -213,7 +210,9 @@ const Login = ({ onLogin }) => {
               justifyContent: 'center',
               gap: '0.5rem',
               marginTop: '0.5rem',
-              cursor: loading ? 'not-allowed' : 'pointer'
+              cursor: loading ? 'not-allowed' : 'pointer',
+              background: '#00a859',
+              color: '#ffffff'
             }}
           >
             {loading ? 'Validando...' : (
@@ -230,15 +229,15 @@ const Login = ({ onLogin }) => {
           display: 'flex',
           alignItems: 'center',
           margin: '1.75rem 0 1.25rem',
-          color: 'var(--text-secondary)',
+          color: '#64748b',
           fontSize: '0.8rem'
         }}>
-          <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+          <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />
           <span style={{ padding: '0 0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>O</span>
-          <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+          <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }} />
         </div>
 
-        {/* Botón 2: Inicio de Pruebas (Demo con un solo clic) */}
+        {/* Botón 2: Inicio de Pruebas */}
         <button
           type="button"
           onClick={handleLoginPruebas}
@@ -246,10 +245,10 @@ const Login = ({ onLogin }) => {
           style={{
             width: '100%',
             padding: '0.85rem',
-            background: 'rgba(0, 168, 89, 0.15)',
-            border: '1px solid rgba(0, 168, 89, 0.45)',
+            background: '#e8f8f0',
+            border: '1px solid #a7f3d0',
             borderRadius: '8px',
-            color: '#34d399',
+            color: '#00a859',
             fontWeight: '600',
             fontSize: '0.95rem',
             display: 'flex',
@@ -259,33 +258,27 @@ const Login = ({ onLogin }) => {
             cursor: loading ? 'not-allowed' : 'pointer',
             transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(0, 168, 89, 0.25)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(0, 168, 89, 0.15)';
-          }}
         >
           <Zap size={18} />
           Acceso Rápido de Pruebas
         </button>
 
-        {/* Nota informativa con las credenciales configuradas */}
+        {/* Nota informativa */}
         <div style={{
           marginTop: '1.5rem',
           padding: '0.75rem',
           borderRadius: '8px',
-          background: 'rgba(0, 168, 89, 0.08)',
-          border: '1px dashed rgba(0, 168, 89, 0.3)',
+          background: '#f8fafc',
+          border: '1px dashed #cbd5e1',
           textAlign: 'center',
           fontSize: '0.75rem',
-          color: 'var(--text-secondary)'
+          color: '#475569'
         }}>
           <span>Credenciales de prueba: </span>
-          <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>RUT: 9.999.999-9</span>
+          <span style={{ color: '#0f172a', fontWeight: '700' }}>RUT: 9.999.999-9</span>
           <span> · </span>
           <span>Clave: </span>
-          <span style={{ color: '#34d399', fontWeight: '600' }}>Conatacoch2026</span>
+          <span style={{ color: '#00a859', fontWeight: '700' }}>Conatacoch2026</span>
         </div>
       </div>
     </div>

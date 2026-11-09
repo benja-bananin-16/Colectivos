@@ -7,15 +7,17 @@ import {
   ShieldAlert,
   LogOut,
   Car,
-  Route
+  Route,
+  Users
 } from 'lucide-react';
 
 const Sidebar = ({ activeTab, setActiveTab, onLogout, usuario }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard Ejecutivo', icon: LayoutDashboard },
     { id: 'rutas', label: 'Rutas y Paraderos', icon: Route },
-    { id: 'conductores', label: 'Gestión de Conductores', icon: Car },
-    { id: 'documentacion', label: 'Documentación Móviles', icon: FileText },
+    { id: 'conductores', label: 'Gestión de Conductores', icon: Users },
+    { id: 'automoviles', label: 'Gestión de Automóviles', icon: Car },
+    { id: 'documentacion', label: 'Documentación y Vigencias', icon: FileText },
     { id: 'cuotas', label: 'Cuotas Sociales', icon: DollarSign },
     { id: 'reportes', label: 'Indicadores y Reportes', icon: BarChart2 },
     { id: 'incidentes', label: 'Incidentes Seguridad', icon: ShieldAlert },

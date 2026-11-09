@@ -61,16 +61,21 @@ class Linea(Document):
 class Movil(Document):
     """
     Documento de MongoDB para vehículos asociados al servicio de colectivos.
+    Incluye vigencias de Permiso de Circulación, Revisión Técnica y Seguro Obligatorio.
     """
-    numero_interno = StringField(required=True)
+    numero_interno = StringField(default='')
     patente = StringField(required=True, unique=True)
     conductor_id = StringField(default=None, null=True)
     linea_id = StringField(default=None, null=True)
     marca = StringField(required=True)
     modelo = StringField(required=True)
     anio = IntField(required=True)
+    combustible = StringField(default='Bencina', choices=('Bencina', 'Diésel', 'Híbrido', 'Eléctrico', 'GLP', 'GNC'))
     capacidad = IntField(default=4)
     estado = StringField(default='ACTIVO', choices=('ACTIVO', 'MANTENIMIENTO', 'INACTIVO'))
+    permiso_circulacion = DictField(default=dict)  # {'comuna': '', 'fecha_otorgacion': '', 'vencimiento': ''}
+    revision_tecnica = DictField(default=dict)     # {'planta': '', 'comuna': '', 'vencimiento': ''}
+    seguro_obligatorio = DictField(default=dict)   # {'compania': '', 'prima': 0, 'vencimiento': ''}
 
     meta = {
         'collection': 'moviles',
@@ -87,20 +92,32 @@ class Movil(Document):
             'marca': self.marca,
             'modelo': self.modelo,
             'anio': self.anio,
+            'combustible': self.combustible or 'Bencina',
             'capacidad': self.capacidad,
             'estado': self.estado,
+            'permiso_circulacion': self.permiso_circulacion if isinstance(self.permiso_circulacion, dict) else {},
+            'revision_tecnica': self.revision_tecnica if isinstance(self.revision_tecnica, dict) else {},
+            'seguro_obligatorio': self.seguro_obligatorio if isinstance(self.seguro_obligatorio, dict) else {},
         }
 
     def __str__(self):
-        return f"Móvil {self.numero_interno} ({self.patente}) - {self.marca} {self.modelo}"
+        return f"Móvil {self.numero_interno or self.patente} ({self.patente}) - {self.marca} {self.modelo}"
 
 
 class Conductor(Document):
     """
     Documento de MongoDB para el perfil extendido de un conductor.
+    Alineado a los requisitos de acreditación gremial y protocolo INACAP.
     """
     usuario_id = StringField(required=True, unique=True)
-    licencia_profesional = StringField(required=True)
+    direccion = StringField(default='')
+    fono_domicilio = StringField(default='')
+    fecha_incorporacion = DateTimeField(default=None, null=True)
+    tipo_licencia = StringField(default='A2', choices=('A2', 'A3', 'A2 y A3'))
+    licencia_profesional = StringField(default='A2')
+    municipio_licencia = StringField(default='')
+    fecha_obtencion_licencia = DateTimeField(default=None, null=True)
+    duracion_licencia_anios = IntField(default=4)
     vencimiento_licencia = DateTimeField(required=True)
     estado = StringField(
         default='EN_LINEA',
@@ -117,9 +134,20 @@ class Conductor(Document):
         return {
             'id': str(self.id),
             'usuario_id': self.usuario_id,
+            'direccion': self.direccion,
+            'fono_domicilio': self.fono_domicilio,
+            'fecha_incorporacion': (
+                self.fecha_incorporacion.strftime('%Y-%m-%d') if self.fecha_incorporacion else None
+            ),
+            'tipo_licencia': self.tipo_licencia or self.licencia_profesional,
             'licencia_profesional': self.licencia_profesional,
+            'municipio_licencia': self.municipio_licencia,
+            'fecha_obtencion_licencia': (
+                self.fecha_obtencion_licencia.strftime('%Y-%m-%d') if self.fecha_obtencion_licencia else None
+            ),
+            'duracion_licencia_anios': self.duracion_licencia_anios,
             'vencimiento_licencia': (
-                self.vencimiento_licencia.isoformat() if self.vencimiento_licencia else None
+                self.vencimiento_licencia.strftime('%Y-%m-%d') if self.vencimiento_licencia else None
             ),
             'estado': self.estado,
             'calificacion_promedio': round(self.calificacion_promedio, 2),
