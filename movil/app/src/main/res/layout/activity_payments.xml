@@ -71,7 +71,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_check"
-                            app:tint="@color/black" />
+                            app:tint="@color/white" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -127,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Día"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center" />

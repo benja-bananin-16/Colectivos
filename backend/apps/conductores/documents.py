@@ -1,34 +1,61 @@
 from datetime import datetime, timezone
-from mongoengine import Document, StringField, DateTimeField, FloatField, IntField, BooleanField
+from mongoengine import Document, StringField, DateTimeField, FloatField, IntField, BooleanField, DictField
 
 
 class Linea(Document):
     """
-    Documento de MongoDB para líneas de colectivos (rutas fijas autorizadas).
+    Documento de MongoDB para líneas de colectivos y recorridos autorizados.
+    Compatible con la estructura de rutas_rm_3.json y trazados de IDA/REGRESO.
     """
+    codigo_recorrido = StringField(default='')
+    folio = IntField(default=None, null=True)
+    tipo_servicio = StringField(default='')
+    nro_linea = StringField(default='')
+    flota_vigente = IntField(default=0)
+    responsable = StringField(default='')
+    nombre_fantasia = StringField(default='')
+    tipo_persona = StringField(default='')
+    nombre_recorrido = StringField(default='')
+    tipo_trazado = StringField(default='')
     nombre = StringField(required=True)
-    origen = StringField(required=True)
-    destino = StringField(required=True)
+    origen = DictField(default=dict)
+    destino = DictField(default=dict)
+    trazado = DictField(default=dict)  # {'IDA': [...paraderos...], 'REGRESO': [...paraderos...]}
     tarifa = IntField(default=1000)
     activa = BooleanField(default=True)
 
     meta = {
         'collection': 'lineas',
-        'indexes': ['nombre', 'activa'],
+        'indexes': ['nombre', 'nro_linea', 'activa', 'codigo_recorrido'],
     }
 
     def to_dict(self) -> dict:
+        origen_data = self.origen if isinstance(self.origen, dict) else {'nombre': str(self.origen)}
+        destino_data = self.destino if isinstance(self.destino, dict) else {'nombre': str(self.destino)}
         return {
             'id': str(self.id),
+            'codigo_recorrido': self.codigo_recorrido,
+            'folio': self.folio,
+            'tipo_servicio': self.tipo_servicio,
+            'nro_linea': str(self.nro_linea) if self.nro_linea is not None else '',
+            'flota_vigente': self.flota_vigente,
+            'responsable': self.responsable,
+            'nombre_fantasia': self.nombre_fantasia,
+            'tipo_persona': self.tipo_persona,
+            'nombre_recorrido': self.nombre_recorrido,
+            'tipo_trazado': self.tipo_trazado,
             'nombre': self.nombre,
-            'origen': self.origen,
-            'destino': self.destino,
+            'origen': origen_data,
+            'destino': destino_data,
+            'trazado': self.trazado if isinstance(self.trazado, dict) else {},
             'tarifa': self.tarifa,
             'activa': self.activa,
         }
 
     def __str__(self):
-        return f"Línea {self.nombre} ({self.origen} - {self.destino})"
+        origen_str = self.origen.get('nombre', '') if isinstance(self.origen, dict) else str(self.origen)
+        destino_str = self.destino.get('nombre', '') if isinstance(self.destino, dict) else str(self.destino)
+        return f"Línea {self.nombre} ({origen_str} - {destino_str})"
 
 
 class Movil(Document):

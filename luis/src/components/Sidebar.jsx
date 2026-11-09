@@ -6,12 +6,14 @@ import {
   BarChart2, 
   ShieldAlert,
   LogOut,
-  Car
+  Car,
+  Route
 } from 'lucide-react';
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, onLogout, usuario }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard Ejecutivo', icon: LayoutDashboard },
+    { id: 'rutas', label: 'Rutas y Paraderos', icon: Route },
     { id: 'conductores', label: 'Gestión de Conductores', icon: Car },
     { id: 'documentacion', label: 'Documentación Móviles', icon: FileText },
     { id: 'cuotas', label: 'Cuotas Sociales', icon: DollarSign },
@@ -21,10 +23,20 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 
   return (
     <aside className="sidebar">
-      <div className="brand">
-        <Car className="text-accent-primary" />
+      <div className="brand" style={{ paddingBottom: '1rem' }}>
+        <Car color="#00a859" size={26} />
         <span>CONATACOCH Admin</span>
       </div>
+      {usuario && (
+        <div style={{ padding: '0 1rem 1.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '1rem' }}>
+          <div style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-primary)' }}>
+            {usuario.nombre}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <span>●</span> {usuario.rol}
+          </div>
+        </div>
+      )}
       
       <div className="nav-menu" style={{ flex: 1 }}>
         {menuItems.map((item) => {
@@ -43,7 +55,12 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       </div>
 
       <div className="nav-menu mt-auto">
-        <div className="nav-item text-danger">
+        <div 
+          className="nav-item text-danger" 
+          onClick={onLogout}
+          style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
+          title="Cerrar sesión actual"
+        >
           <LogOut />
           <span>Cerrar Sesión</span>
         </div>

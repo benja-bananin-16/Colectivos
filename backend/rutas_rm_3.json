@@ -1,0 +1,816 @@
+{
+  "metadata": {
+    "fuente": "Transporte Público - Julio 2026",
+    "nota": "Muestra de 3 recorridos de la Región Metropolitana"
+  },
+  "regiones": {
+    "13": {
+      "region": 13,
+      "nombre_region": "Metropolitana de Santiago",
+      "total_recorridos": 3,
+      "recorridos": {
+        "13_20061_itinerario-1_principal": {
+          "folio": 20061,
+          "tipo_servicio": "AUTOMOVIL RURAL TAXI COLECTIVO",
+          "nro_linea": 105,
+          "flota_vigente": 53,
+          "responsable": "ASOCIACION DE TAXIS COLECTIVOS Y TRANSPORTE DE PASAJEROS: MELIPILLA, SAN JOSE, BOLLENAR, MALLARAUCO E IBACACHE. A.G.",
+          "nombre_fantasia": "AGRETACOMBO",
+          "tipo_persona": "JURIDICA",
+          "nombre_recorrido": "ITINERARIO 1",
+          "tipo_trazado": "PRINCIPAL",
+          "origen": {
+            "nombre": "MELIPILLA",
+            "comuna": "Melipilla",
+            "domicilio": "AV. MANSO"
+          },
+          "destino": {
+            "nombre": "MELIPILLA",
+            "comuna": "Melipilla",
+            "domicilio": "CIRCUNVALACION: RUTA G-778 ALTURA SANTA TERESA"
+          },
+          "trazado": {
+            "IDA": [
+              {
+                "orden": 1,
+                "calle": "AV. MANSO",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 2,
+                "calle": "SILVA CHAVEZ",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 3,
+                "calle": "AV. VICU?A MACKENNA",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 4,
+                "calle": "AV. JOSE MASSOUD",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 5,
+                "calle": "RUTA G-74 F",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 6,
+                "calle": "AV. ANSELMO ALARCON",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 7,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 8,
+                "calle": "RUTA G-788 (PUERTAS BLANCAS)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 9,
+                "calle": "RUTA G-788 (RET. KM. 2,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 10,
+                "calle": "RUTA G-788 (PUERTAS BLANCAS)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 11,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 12,
+                "calle": "RUTA G-790 (VI?A EL CAMPESINO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 13,
+                "calle": "RUTA G-790 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 14,
+                "calle": "RUTA G-790 (VI?A EL CAMPESINO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 15,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 16,
+                "calle": "RUTA G-792 (EL OLIVO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 17,
+                "calle": "RUTA G-792 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 18,
+                "calle": "RUTA G-792 (EL OLIVO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 19,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 20,
+                "calle": "RUTA G-794 (HERMANOS CARRERA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 21,
+                "calle": "RUTA G-794 (RET. KM. 4,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 22,
+                "calle": "RUTA G-794 (HERMANOS CARRERA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 23,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 24,
+                "calle": "RUTA G-798 (SAN BERNARDO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 25,
+                "calle": "RUTA G-798 (RET. KM. 4,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 26,
+                "calle": "RUTA G-798 (SAN BERNARDO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 27,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 28,
+                "calle": "RUTA G-796 (SANTA CLARA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 29,
+                "calle": "RUTA G-796 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 30,
+                "calle": "RUTA G-796 (SANTA CLARA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 31,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 32,
+                "calle": "RUTA G-746 (SANTA VICTORIA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 33,
+                "calle": "RUTA G-746 (RET. KM. 2)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 34,
+                "calle": "RUTA G-746 (SANTA VICTORIA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 35,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 36,
+                "calle": "RUTA G-778 (SANTA TERESA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 37,
+                "calle": "RUTA G-778 (RET. KM. 2)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 38,
+                "calle": "RUTA G-778 (SANTA TERESA)",
+                "comuna": "Melipilla"
+              }
+            ],
+            "REGRESO": [
+              {
+                "orden": 39,
+                "calle": "RUTA G-778 (SANTA TERESA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 40,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 41,
+                "calle": "RUTA G-746 (SANTA VICTORIA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 42,
+                "calle": "RUTA G-746 (RET. KM. 2)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 43,
+                "calle": "RUTA G-746 (SANTA VICTORIA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 44,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 45,
+                "calle": "RUTA G-796 (SANTA CLARA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 46,
+                "calle": "RUTA G-796 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 47,
+                "calle": "RUTA G-796 (SANTA CLARA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 48,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 49,
+                "calle": "RUTA G-798 (SAN BERNARDO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 50,
+                "calle": "RUTA G-798 (RET. KM. 4,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 51,
+                "calle": "RUTA G-798 (SAN BERNARDO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 52,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 53,
+                "calle": "RUTA G-794 (HERMANOS CARRERA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 54,
+                "calle": "RUTA G-794 (RET. KM. 4,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 55,
+                "calle": "RUTA G-794 (HERMANOS CARRERA)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 56,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 57,
+                "calle": "RUTA G-792 (EL OLIVO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 58,
+                "calle": "RUTA G-792 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 59,
+                "calle": "RUTA G-792 (EL OLIVO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 60,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 61,
+                "calle": "RUTA G-790 (VI?A EL CAMPESINO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 62,
+                "calle": "RUTA G-790 (RET. KM. 3)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 63,
+                "calle": "RUTA G-790 (VI?A EL CAMPESINO)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 64,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 65,
+                "calle": "RUTA G-788 (PUERTAS BLANCAS)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 66,
+                "calle": "RUTA G-788 (RET. KM. 2,5)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 67,
+                "calle": "RUTA G-788 (PUERTAS BLANCAS)",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 68,
+                "calle": "RUTA G-380",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 69,
+                "calle": "AV. ANSELMO ALARCON",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 70,
+                "calle": "RUTA G-74 F",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 71,
+                "calle": "AV. JOSE MASSOUD",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 72,
+                "calle": "AV. VICU?A MACKENNA",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 73,
+                "calle": "ORTUZAR",
+                "comuna": "Melipilla"
+              },
+              {
+                "orden": 74,
+                "calle": "AV. MANSO",
+                "comuna": "Melipilla"
+              }
+            ]
+          }
+        },
+        "13_230001_t_principal": {
+          "folio": 230001,
+          "tipo_servicio": "AUTOMOVIL URBANO TAXI COLECTIVO",
+          "nro_linea": 1,
+          "flota_vigente": 5,
+          "responsable": "TRANSPORTES TABANCURA CENTRO S.A.",
+          "nombre_fantasia": "TRATCEN S.A.",
+          "tipo_persona": "JURIDICA",
+          "nombre_recorrido": "T",
+          "tipo_trazado": "PRINCIPAL",
+          "origen": {
+            "nombre": "SANTIAGO",
+            "comuna": "Santiago",
+            "domicilio": "AV. CARDENAL JOSE MARIA CARO"
+          },
+          "destino": {
+            "nombre": "VITACURA",
+            "comuna": "Vitacura",
+            "domicilio": "CIRCUNVALACION: AV. LAS CONDES ALTURA PAMPLONA"
+          },
+          "trazado": {
+            "IDA": [
+              {
+                "orden": 1,
+                "calle": "AV. CARDENAL JOSE MARIA CARO",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 2,
+                "calle": "PUENTE LA PAZ",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 3,
+                "calle": "AV. SANTA MARIA",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 4,
+                "calle": "AV. SANTA MARIA",
+                "comuna": "Providencia"
+              },
+              {
+                "orden": 5,
+                "calle": "PUENTE LO SALDES",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 6,
+                "calle": "ROTONDA PEREZ ZUJOVIC",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 7,
+                "calle": "AV. VITACURA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 8,
+                "calle": "ALONSO DE CORDOVA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 9,
+                "calle": "AV. AMERICO VESPUCIO",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 10,
+                "calle": "LATERAL AV. PRESIDENTE KENNEDY (COSTADO DEL PARQUE)",
+                "comuna": "Las Condes"
+              },
+              {
+                "orden": 11,
+                "calle": "AV. PRESIDENTE KENNEDY",
+                "comuna": "Las Condes"
+              },
+              {
+                "orden": 12,
+                "calle": "AV. MANQUEHUE",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 13,
+                "calle": "AV. VITACURA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 14,
+                "calle": "AV. TABANCURA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 15,
+                "calle": "LAS HUALTATAS",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 16,
+                "calle": "PAMPLONA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 17,
+                "calle": "AV. LAS CONDES",
+                "comuna": "Vitacura"
+              }
+            ],
+            "REGRESO": [
+              {
+                "orden": 18,
+                "calle": "AV. LAS CONDES",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 19,
+                "calle": "AV. TABANCURA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 20,
+                "calle": "AV. VITACURA",
+                "comuna": "Vitacura"
+              },
+              {
+                "orden": 21,
+                "calle": "AV. ANDRES BELLO",
+                "comuna": "Providencia"
+              },
+              {
+                "orden": 22,
+                "calle": "AV. CARDENAL JOSE MARIA CARO",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 23,
+                "calle": "JOSE MIGUEL DE LA BARRA",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 24,
+                "calle": "SANTO DOMINGO",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 25,
+                "calle": "ENRIQUE MAC-IVER",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 26,
+                "calle": "ESMERALDA",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 27,
+                "calle": "21 DE MAYO",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 28,
+                "calle": "ROSAS",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 29,
+                "calle": "SAN MARTIN",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 30,
+                "calle": "AGUSTINAS",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 31,
+                "calle": "MORANDE",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 32,
+                "calle": "GENERAL MACKENNA",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 33,
+                "calle": "ISMAEL VALDES VERGARA",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 34,
+                "calle": "ENRIQUE MAC-IVER",
+                "comuna": "Santiago"
+              },
+              {
+                "orden": 35,
+                "calle": "AV. CARDENAL JOSE MARIA CARO",
+                "comuna": "Santiago"
+              }
+            ]
+          }
+        },
+        "13_500007_itinerario-1_principal": {
+          "folio": 500007,
+          "tipo_servicio": "BUS RURAL CORRIENTE",
+          "nro_linea": "",
+          "flota_vigente": 6,
+          "responsable": "LUIS GILBERTO ORELLANA JIMENEZ",
+          "nombre_fantasia": null,
+          "tipo_persona": "NATURAL",
+          "nombre_recorrido": "ITINERARIO 1",
+          "tipo_trazado": "PRINCIPAL",
+          "origen": {
+            "nombre": "MARIA PINTO",
+            "comuna": "María Pinto",
+            "domicilio": "RUTA G-74 F"
+          },
+          "destino": {
+            "nombre": "SAN BORJA",
+            "comuna": "Estación Central",
+            "domicilio": "SAN BORJA"
+          },
+          "trazado": {
+            "IDA": [
+              {
+                "orden": 1,
+                "calle": "RUTA G-74 F (CHOROMBO)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 2,
+                "calle": "RUTA G-730",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 3,
+                "calle": "RUTA G-730 (LAS MERCEDES)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 4,
+                "calle": "RUTA G-730 (LOS SAUCES)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 5,
+                "calle": "RUTA G-730 (EL BOSQUE)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 6,
+                "calle": "RUTA G-730 (SANTA EMILIA)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 7,
+                "calle": "RUTA G-744 (SANTA LUISA)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 8,
+                "calle": "RUTA G-730 (LOS RULOS)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 9,
+                "calle": "RUTA G-730 (LOLENCO)",
+                "comuna": "Curacaví"
+              },
+              {
+                "orden": 10,
+                "calle": "RUTA 68",
+                "comuna": "Curacaví"
+              },
+              {
+                "orden": 11,
+                "calle": "RUTA 68",
+                "comuna": "Pudahuel"
+              },
+              {
+                "orden": 12,
+                "calle": "RUTA 68",
+                "comuna": "Lo Prado"
+              },
+              {
+                "orden": 13,
+                "calle": "AV. LIBERTADOR BERNARDO O'HIGGINS",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 14,
+                "calle": "GENERAL AMENGUAL",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 15,
+                "calle": "CORONEL SOUPER",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 16,
+                "calle": "TORO MAZOTE",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 17,
+                "calle": "AV. 5 DE ABRIL",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 18,
+                "calle": "SAN BORJA",
+                "comuna": "Estación Central"
+              }
+            ],
+            "REGRESO": [
+              {
+                "orden": 19,
+                "calle": "SAN BORJA",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 20,
+                "calle": "TACNA",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 21,
+                "calle": "OBISPO MANUEL UMA?A SALINAS",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 22,
+                "calle": "AV. ECUADOR",
+                "comuna": "Estación Central"
+              },
+              {
+                "orden": 23,
+                "calle": "ROTONDA OSCAR BONILLA",
+                "comuna": "Lo Prado"
+              },
+              {
+                "orden": 24,
+                "calle": "RUTA 68",
+                "comuna": "Lo Prado"
+              },
+              {
+                "orden": 25,
+                "calle": "RUTA 68",
+                "comuna": "Pudahuel"
+              },
+              {
+                "orden": 26,
+                "calle": "RUTA 68",
+                "comuna": "Curacaví"
+              },
+              {
+                "orden": 27,
+                "calle": "RUTA G-730 (LOLENCO)",
+                "comuna": "Curacaví"
+              },
+              {
+                "orden": 28,
+                "calle": "RUTA G-730 (LOS RULOS)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 29,
+                "calle": "RUTA G-744 (SANTA LUISA)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 30,
+                "calle": "RUTA G-730 (SANTA EMILIA)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 31,
+                "calle": "RUTA G-730 (EL BOSQUE)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 32,
+                "calle": "RUTA G-730 (LOS SAUCES)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 33,
+                "calle": "RUTA G-730 (LAS MERCEDES)",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 34,
+                "calle": "RUTA G-730",
+                "comuna": "María Pinto"
+              },
+              {
+                "orden": 35,
+                "calle": "RUTA G-74 F (CHOROMBO)",
+                "comuna": "María Pinto"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -46,9 +46,20 @@ class MovilSerializer(serializers.Serializer):
 
 class LineaSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
-    nombre = serializers.CharField(max_length=100, required=True)
-    origen = serializers.CharField(max_length=150, required=True)
-    destino = serializers.CharField(max_length=150, required=True)
+    codigo_recorrido = serializers.CharField(required=False, allow_blank=True)
+    folio = serializers.IntegerField(required=False, allow_null=True)
+    tipo_servicio = serializers.CharField(required=False, allow_blank=True)
+    nro_linea = serializers.CharField(required=False, allow_blank=True)
+    flota_vigente = serializers.IntegerField(required=False, default=0)
+    responsable = serializers.CharField(required=False, allow_blank=True)
+    nombre_fantasia = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    tipo_persona = serializers.CharField(required=False, allow_blank=True)
+    nombre_recorrido = serializers.CharField(required=False, allow_blank=True)
+    tipo_trazado = serializers.CharField(required=False, allow_blank=True)
+    nombre = serializers.CharField(max_length=150, required=True)
+    origen = serializers.JSONField(required=False)
+    destino = serializers.JSONField(required=False)
+    trazado = serializers.JSONField(required=False)
     tarifa = serializers.IntegerField(default=1000, required=False)
     activa = serializers.BooleanField(default=True, required=False)
 

@@ -42,7 +42,7 @@ class PaymentsActivity : AppCompatActivity() {
         val tvMes = findViewById<TextView>(R.id.tv_tab_mes)
 
         val colorYellow = ContextCompat.getColor(this, R.color.brand_yellow)
-        val colorBlack = ContextCompat.getColor(this, R.color.black)
+        val colorWhite = ContextCompat.getColor(this, R.color.white)
         val colorGray = ContextCompat.getColor(this, R.color.text_secondary)
 
         fun resetTabs() {
@@ -57,17 +57,17 @@ class PaymentsActivity : AppCompatActivity() {
         btnDia.setOnClickListener {
             resetTabs()
             btnDia.setCardBackgroundColor(colorYellow)
-            tvDia.setTextColor(colorBlack)
+            tvDia.setTextColor(colorWhite)
         }
         btnSemana.setOnClickListener {
             resetTabs()
             btnSemana.setCardBackgroundColor(colorYellow)
-            tvSemana.setTextColor(colorBlack)
+            tvSemana.setTextColor(colorWhite)
         }
         btnMes.setOnClickListener {
             resetTabs()
             btnMes.setCardBackgroundColor(colorYellow)
-            tvMes.setTextColor(colorBlack)
+            tvMes.setTextColor(colorWhite)
         }
     }
 

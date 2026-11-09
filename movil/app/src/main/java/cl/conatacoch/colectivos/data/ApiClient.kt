@@ -49,6 +49,45 @@ data class MovilResponse(
     val estado: String?
 )
 
+// Datos de paradero en trazado
+data class ParadaResponse(
+    val orden: Int,
+    val calle: String,
+    val comuna: String?
+) : java.io.Serializable
+
+// Trazado de IDA y REGRESO
+data class TrazadoResponse(
+    @SerializedName("IDA") val ida: List<ParadaResponse>?,
+    @SerializedName("REGRESO") val regreso: List<ParadaResponse>?
+) : java.io.Serializable
+
+// Modelo completo de Ruta / Línea devuelto por la API
+data class RutaResponse(
+    val id: String?,
+    @SerializedName("codigo_recorrido") val codigoRecorrido: String?,
+    val folio: Int?,
+    @SerializedName("tipo_servicio") val tipoServicio: String?,
+    @SerializedName("nro_linea") val nroLinea: String?,
+    @SerializedName("flota_vigente") val flotaVigente: Int?,
+    val responsable: String?,
+    @SerializedName("nombre_fantasia") val nombreFantasia: String?,
+    @SerializedName("tipo_persona") val tipoPersona: String?,
+    @SerializedName("nombre_recorrido") val nombreRecorrido: String?,
+    @SerializedName("tipo_trazado") val tipoTrazado: String?,
+    val nombre: String,
+    val origen: Map<String, Any>?,
+    val destino: Map<String, Any>?,
+    val trazado: TrazadoResponse?,
+    val tarifa: Int?,
+    val activa: Boolean?
+) : java.io.Serializable
+
+data class SeleccionarLineaRequest(
+    @SerializedName("linea_id") val lineaId: String,
+    @SerializedName("conductor_id") val conductorId: String? = null
+)
+
 // Respuesta del listado de conductores (/conductores/)
 data class ConductorResponse(
     val id: String?,
@@ -72,15 +111,42 @@ interface ApiService {
 
     @GET("conductores/")
     suspend fun getConductores(@Header("Authorization") authHeader: String): Response<List<ConductorResponse>>
+
+    @GET("lineas/")
+    suspend fun getLineas(): Response<List<RutaResponse>>
+
+    @POST("conductores/seleccionar-linea/")
+    suspend fun seleccionarLinea(@Body body: SeleccionarLineaRequest): Response<Any>
+}
+
+class FallbackHostInterceptor : okhttp3.Interceptor {
+    override fun intercept(chain: okhttp3.Interceptor.Chain): okhttp3.Response {
+        val request = chain.request()
+        return try {
+            chain.proceed(request)
+        } catch (e: java.io.IOException) {
+            val originalHost = request.url.host
+            if (originalHost == "127.0.0.1") {
+                val fallbackUrl = request.url.newBuilder()
+                    .host("10.0.2.2")
+                    .build()
+                val fallbackRequest = request.newBuilder()
+                    .url(fallbackUrl)
+                    .build()
+                chain.proceed(fallbackRequest)
+            } else {
+                throw e
+            }
+        }
+    }
 }
 
 object ApiClient {
     /**
      * URL BASE DE LA API DE CONATACOCH:
      * - Emulador o teléfono por USB: `adb reverse tcp:8010 tcp:8010` y esta URL (127.0.0.1).
-     * - Emulador sin adb reverse: http://10.0.2.2:8010/api/ (requiere el puerto abierto en el firewall).
+     * - Emulador sin adb reverse: http://10.0.2.2:8010/api/ (fallback automático integrado).
      * - Teléfono por WiFi: http://<IP-DEL-PC>:8010/api/ y abrir el 8010 en el firewall.
-     * Importante: Mantener siempre la barra diagonal "/" al final de la URL.
      */
     const val BASE_URL: String = "http://127.0.0.1:8010/api/"
 
@@ -89,9 +155,10 @@ object ApiClient {
     }
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(6, TimeUnit.SECONDS)
+        .connectTimeout(5, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
         .writeTimeout(10, TimeUnit.SECONDS)
+        .addInterceptor(FallbackHostInterceptor())
         .addInterceptor(loggingInterceptor)
         .build()
 

@@ -11,6 +11,7 @@ from apps.conductores.serializers import (
     ConductorSerializer,
     ConductorUpdateSerializer,
     MovilSerializer,
+    LineaSerializer,
 )
 
 
@@ -151,3 +152,135 @@ class MovilListCreateView(APIView):
         )
         movil.save()
         return Response(movil.to_dict(), status=status.HTTP_201_CREATED)
+
+
+class LineaListCreateView(APIView):
+    """
+    Lista y creación de líneas/rutas.
+    GET  /api/lineas/ -> Lista todas las rutas (público o autenticado)
+    POST /api/lineas/ -> Crea una nueva ruta (Super Admin)
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        lineas = Linea.objects.all()
+        return Response([l.to_dict() for l in lineas], status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = LineaSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        d = serializer.validated_data
+        linea = Linea(
+            codigo_recorrido=d.get('codigo_recorrido', ''),
+            folio=d.get('folio'),
+            tipo_servicio=d.get('tipo_servicio', ''),
+            nro_linea=str(d.get('nro_linea', '')),
+            flota_vigente=d.get('flota_vigente', 0),
+            responsable=d.get('responsable', ''),
+            nombre_fantasia=d.get('nombre_fantasia', ''),
+            tipo_persona=d.get('tipo_persona', ''),
+            nombre_recorrido=d.get('nombre_recorrido', ''),
+            tipo_trazado=d.get('tipo_trazado', ''),
+            nombre=d['nombre'],
+            origen=d.get('origen', {}),
+            destino=d.get('destino', {}),
+            trazado=d.get('trazado', {}),
+            tarifa=d.get('tarifa', 1000),
+            activa=d.get('activa', True),
+        )
+        linea.save()
+        return Response(linea.to_dict(), status=status.HTTP_201_CREATED)
+
+
+class LineaDetailView(APIView):
+    """
+    Detalle, actualización y eliminación de una línea/ruta por ID.
+    GET/PATCH/PUT/DELETE /api/lineas/<id>/
+    """
+    permission_classes = [AllowAny]
+
+    def _obtener_linea(self, pk: str):
+        try:
+            return Linea.objects(id=pk).first()
+        except Exception:
+            return None
+
+    def get(self, request, pk):
+        linea = self._obtener_linea(pk)
+        if not linea:
+            return Response({"error": "Línea/Ruta no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+        return Response(linea.to_dict(), status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        linea = self._obtener_linea(pk)
+        if not linea:
+            return Response({"error": "Línea/Ruta no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = LineaSerializer(data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        d = serializer.validated_data
+        for campo, valor in d.items():
+            setattr(linea, campo, valor)
+        linea.save()
+        return Response(linea.to_dict(), status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        return self.put(request, pk)
+
+    def delete(self, request, pk):
+        linea = self._obtener_linea(pk)
+        if not linea:
+            return Response({"error": "Línea/Ruta no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+        linea.delete()
+        return Response({"mensaje": "Línea eliminada exitosamente."}, status=status.HTTP_200_OK)
+
+
+class ConductorSeleccionarLineaView(APIView):
+    """
+    Permite al conductor seleccionar la línea/ruta en la que va a trabajar.
+    POST /api/conductores/seleccionar-linea/
+    Body: { "linea_id": "...", "conductor_id": "..." (opcional si viene en token) }
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        linea_id = request.data.get('linea_id')
+        if not linea_id:
+            return Response({"error": "linea_id es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+
+        linea = Linea.objects(id=linea_id).first()
+        if not linea:
+            return Response({"error": "Línea no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+
+        conductor_id = request.data.get('conductor_id')
+        # Si no se pasó conductor_id explícito, intentar obtenerlo del usuario autenticado
+        if not conductor_id and hasattr(request, 'usuario') and request.usuario:
+            conductor = Conductor.objects(usuario_id=str(request.usuario.id)).first()
+            if conductor:
+                conductor_id = str(conductor.id)
+
+        # Si aún no tenemos conductor_id, podemos buscar el primer conductor activo o devolver éxito con la línea
+        movil = None
+        if conductor_id:
+            conductor = Conductor.objects(id=conductor_id).first()
+            if not conductor and Conductor.objects(usuario_id=conductor_id).first():
+                conductor = Conductor.objects(usuario_id=conductor_id).first()
+
+            if conductor:
+                # Buscar móvil asociado
+                movil = Movil.objects(conductor_id=str(conductor.id)).first()
+                if not movil:
+                    movil = Movil.objects(conductor_id=conductor.usuario_id).first()
+                if movil:
+                    movil.linea_id = str(linea.id)
+                    movil.save()
+
+        return Response({
+            "mensaje": f"Ruta {linea.nombre} seleccionada correctamente.",
+            "linea": linea.to_dict(),
+            "movil": movil.to_dict() if movil else None
+        }, status=status.HTTP_200_OK)

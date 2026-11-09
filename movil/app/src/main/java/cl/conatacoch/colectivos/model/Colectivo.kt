@@ -16,8 +16,10 @@ data class Colectivo(
 
 object ColectivoRepository {
     fun datosDeEjemplo(): MutableList<Colectivo> = mutableListOf(
-        Colectivo("1", "Línea 12", "Terminal La Reina", 2, 3, true, 750, 0.32f, 0.56f),
-        Colectivo("2", "Línea 7", "Mall Plaza", 5, 1, false, 750, 0.5f, 0.35f),
-        Colectivo("3", "Línea 3", "Estación Central", 9, 4, true, 700, 0.68f, 0.21f)
+        Colectivo("1", "Línea 105", "Circunvalación Sta. Teresa (Melipilla)", 3, 3, true, 1000, 0.35f, 0.52f),
+        Colectivo("2", "Línea 1", "Vitacura / Tabancura", 6, 2, false, 1200, 0.52f, 0.38f),
+        Colectivo("3", "María Pinto", "Terminal San Borja (Est. Central)", 8, 4, true, 1500, 0.65f, 0.25f),
+        Colectivo("4", "Línea 105", "Av. Manso (Melipilla)", 12, 1, true, 1000, 0.30f, 0.60f),
+        Colectivo("5", "Línea 1", "Puente La Paz (Santiago)", 15, 3, false, 1200, 0.48f, 0.42f)
     )
 }
