@@ -15,10 +15,16 @@ import cl.conatacoch.colectivos.login.LoginActivity
 
 class ProfileActivity : AppCompatActivity() {
 
+    private lateinit var voiceFeedback: VoiceFeedback
+    private lateinit var panicAlertController: PanicAlertController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
+        val sessionStore = SessionStore(this)
+        voiceFeedback = VoiceFeedback(this)
+        panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -83,13 +89,11 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupPanicButton() {
-        val btnPanic = findViewById<MaterialCardView>(R.id.btn_panic)
-        btnPanic.setOnLongClickListener {
-            Toast.makeText(this, "¡ALERTA DE PÁNICO ENVIADA A LA CENTRAL!", Toast.LENGTH_LONG).show()
-            true
-        }
-        btnPanic.setOnClickListener {
-            Toast.makeText(this, "Mantén presionado para enviar alerta de pánico", Toast.LENGTH_SHORT).show()
-        }
+        panicAlertController.bind(findViewById(R.id.btn_panic))
+    }
+
+    override fun onDestroy() {
+        voiceFeedback.close()
+        super.onDestroy()
     }
 }

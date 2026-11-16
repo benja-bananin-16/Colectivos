@@ -88,6 +88,11 @@ data class SeleccionarLineaRequest(
     @SerializedName("conductor_id") val conductorId: String? = null
 )
 
+data class PanicAlertRequest(
+    @SerializedName("conductor_id") val conductorId: String? = null,
+    val ubicacion: Map<String, Any> = emptyMap()
+)
+
 // Respuesta del listado de conductores (/conductores/)
 data class ConductorResponse(
     val id: String?,
@@ -116,7 +121,16 @@ interface ApiService {
     suspend fun getLineas(): Response<List<RutaResponse>>
 
     @POST("conductores/seleccionar-linea/")
-    suspend fun seleccionarLinea(@Body body: SeleccionarLineaRequest): Response<Any>
+    suspend fun seleccionarLinea(
+        @Header("Authorization") authorization: String,
+        @Body body: SeleccionarLineaRequest
+    ): Response<Any>
+
+    @POST("panic/")
+    suspend fun createPanicAlert(
+        @Header("Authorization") authorization: String,
+        @Body body: PanicAlertRequest
+    ): Response<Map<String, Any>>
 }
 
 class FallbackHostInterceptor : okhttp3.Interceptor {

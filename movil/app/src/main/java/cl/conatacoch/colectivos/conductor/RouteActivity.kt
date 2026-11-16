@@ -26,6 +26,8 @@ class RouteActivity : AppCompatActivity() {
 
     private lateinit var mapView: MapView
     private lateinit var sessionStore: SessionStore
+    private lateinit var voiceFeedback: VoiceFeedback
+    private lateinit var panicAlertController: PanicAlertController
 
     data class ParadaInfo(val orden: Int, val calle: String, val detalle: String)
 
@@ -42,6 +44,8 @@ class RouteActivity : AppCompatActivity() {
         }
 
         sessionStore = SessionStore(this)
+        voiceFeedback = VoiceFeedback(this)
+        panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
 
         mapView = findViewById(R.id.map_view)
         mapView.setTileSource(TileSourceFactory.MAPNIK)
@@ -232,14 +236,7 @@ class RouteActivity : AppCompatActivity() {
     }
 
     private fun setupPanicButton() {
-        val btnPanic = findViewById<MaterialCardView>(R.id.btn_panic)
-        btnPanic.setOnLongClickListener {
-            Toast.makeText(this, "¡ALERTA DE PÁNICO ENVIADA A LA CENTRAL!", Toast.LENGTH_LONG).show()
-            true
-        }
-        btnPanic.setOnClickListener {
-            Toast.makeText(this, "Mantén presionado para enviar alerta de pánico", Toast.LENGTH_SHORT).show()
-        }
+        panicAlertController.bind(findViewById(R.id.btn_panic))
     }
 
     override fun onResume() {
@@ -250,5 +247,10 @@ class RouteActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        voiceFeedback.close()
+        super.onDestroy()
     }
 }

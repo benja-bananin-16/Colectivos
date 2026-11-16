@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Colectivos</string>
+    <string name="panic_button_content_description">Botón de pánico. Mantén presionado para enviar una alerta silenciosa a la central</string>
 </resources>

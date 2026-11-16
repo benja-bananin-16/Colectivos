@@ -32,6 +32,8 @@ class HomeActivity : AppCompatActivity() {
 
     private var seats = 2
     private lateinit var sessionStore: SessionStore
+    private lateinit var voiceFeedback: VoiceFeedback
+    private lateinit var panicAlertController: PanicAlertController
     private var rutasDisponibles: List<RutaSimple> = listOf(
         RutaSimple("105", "Línea 105 · AGRETACOMBO (Melipilla)", "105", "13_20061_itinerario-1_principal"),
         RutaSimple("1", "Línea 1 · TRATCEN (Santiago ↔ Vitacura)", "1", "13_230001_t_principal"),
@@ -56,6 +58,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         sessionStore = SessionStore(this)
+        voiceFeedback = VoiceFeedback(this)
+        panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
         val nombreUsuario = sessionStore.getUserName()
         if (!nombreUsuario.isNullOrEmpty()) {
             findViewById<TextView>(R.id.tv_name)?.text = nombreUsuario
@@ -134,6 +138,7 @@ class HomeActivity : AppCompatActivity() {
             btnTurno?.text = "Finalizar"
             btnTurno?.backgroundTintList = ColorStateList.valueOf(colorRojo)
         }
+
     }
 
     private fun iniciarTurno() {
@@ -244,7 +249,10 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    ApiClient.service.seleccionarLinea(SeleccionarLineaRequest(lineaId = lineaId))
+                    ApiClient.service.seleccionarLinea(
+                        authorization = "Token ${sessionStore.getToken().orEmpty()}",
+                        body = SeleccionarLineaRequest(lineaId = lineaId)
+                    )
                 }
             } catch (_: Exception) {
                 // Sin bloqueo en caso de fallo de red
@@ -311,14 +319,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        val btnPanic = findViewById<MaterialCardView>(R.id.btn_panic)
-        btnPanic.setOnLongClickListener {
-            Toast.makeText(this, "¡ALERTA DE PÁNICO ENVIADA A LA CENTRAL!", Toast.LENGTH_LONG).show()
-            true
-        }
-        btnPanic.setOnClickListener {
-            Toast.makeText(this, "Mantén presionado para enviar alerta de pánico", Toast.LENGTH_SHORT).show()
-        }
+        panicAlertController.bind(findViewById(R.id.btn_panic))
 
         // Botón Iniciar / Finalizar Turno dinámico
         val btnTurnoToggle = findViewById<MaterialButton>(R.id.btn_finalizar)
@@ -363,6 +364,12 @@ class HomeActivity : AppCompatActivity() {
                     false
                 }
             }
+
         }
+    }
+
+    override fun onDestroy() {
+        voiceFeedback.close()
+        super.onDestroy()
     }
 }
