@@ -49,6 +49,22 @@ class HealthCheckView(APIView):
             )
 
 
+class RootView(APIView):
+    """
+    Punto de entrada informativo del backend.
+    GET /
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({
+            "servicio": "Colectivos Backend",
+            "estado": "activo",
+            "api": "/api/",
+            "health": "/api/health",
+        }, status=status.HTTP_200_OK)
+
+
 class LoginView(APIView):
     """
     Inicio de sesión por RUT y contraseña.

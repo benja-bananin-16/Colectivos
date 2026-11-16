@@ -3,7 +3,7 @@ Configuración de URLs para el proyecto Colectivos (CONATACOCH).
 Soporta URLs con y sin barra inclinada final (trailing slash) para máxima compatibilidad.
 """
 from django.urls import re_path, include
-from apps.usuarios.views import HealthCheckView
+from apps.usuarios.views import HealthCheckView, RootView
 from apps.conductores.views import (
     ConductorListCreateView,
     ConductorDetailView,
@@ -17,6 +17,9 @@ from apps.finanzas.views import PagoListView, PagoResumenView, CuotaListView
 from apps.incidentes.views import IncidenteListCreateView
 
 urlpatterns = [
+    # Entrada informativa del backend
+    re_path(r'^$', RootView.as_view(), name='root'),
+
     # Health check
     re_path(r'^api/health/?$', HealthCheckView.as_view(), name='health-check'),
 
