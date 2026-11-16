@@ -714,6 +714,46 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/tv_voice_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Micrófono"
+        android:textColor="@color/text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btn_voice"
+        app:layout_constraintEnd_toEndOf="@id/btn_voice"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btn_voice"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:cardBackgroundColor="@color/card_bg"
+        app:cardCornerRadius="36dp"
+        app:strokeColor="@color/brand_yellow"
+        app:strokeWidth="2dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toStartOf="@id/btn_panic"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/voice_button_content_description">
+
+        <TextView
+            android:id="@+id/tv_voice_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="MIC"
+            android:textColor="@color/brand_yellow"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"

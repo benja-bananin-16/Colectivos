@@ -34,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var sessionStore: SessionStore
     private lateinit var voiceFeedback: VoiceFeedback
     private lateinit var panicAlertController: PanicAlertController
+    private lateinit var voiceCommandManager: VoiceCommandManager
     private var rutasDisponibles: List<RutaSimple> = listOf(
         RutaSimple("105", "Línea 105 · AGRETACOMBO (Melipilla)", "105", "13_20061_itinerario-1_principal"),
         RutaSimple("1", "Línea 1 · TRATCEN (Santiago ↔ Vitacura)", "1", "13_230001_t_principal"),
@@ -60,12 +61,15 @@ class HomeActivity : AppCompatActivity() {
         sessionStore = SessionStore(this)
         voiceFeedback = VoiceFeedback(this)
         panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
+        voiceCommandManager = VoiceCommandManager(this, voiceFeedback, ::handleVoiceAction)
+        AccessibilityPreferences.applyTo(this)
         val nombreUsuario = sessionStore.getUserName()
         if (!nombreUsuario.isNullOrEmpty()) {
             findViewById<TextView>(R.id.tv_name)?.text = nombreUsuario
         }
 
         setupButtons()
+        setupVoiceCommands()
         setupRutaActual()
         setupEstadoTurnoUI()
         cargarRutasDesdeBackend()
@@ -147,6 +151,7 @@ class HomeActivity : AppCompatActivity() {
         sessionStore.setTurnoInicio(horaActual)
         sessionStore.setEstadoConductor("EN_LINEA")
         actualizarEstadoVisual("EN_LINEA", true)
+        voiceFeedback.speak("Conductor en línea")
 
         val rutaActual = sessionStore.getSelectedRouteName() ?: "tu ruta"
         Toast.makeText(this, "¡Turno iniciado! Ya estás en línea en $rutaActual", Toast.LENGTH_SHORT).show()
@@ -161,6 +166,7 @@ class HomeActivity : AppCompatActivity() {
                 sessionStore.setEstadoConductor("FUERA_SERVICIO")
                 sessionStore.setTurnoInicio(null)
                 actualizarEstadoVisual("FUERA_SERVICIO", false)
+                voiceFeedback.speak("Conductor fuera de servicio")
                 Toast.makeText(this, "Turno finalizado. Has quedado fuera de servicio.", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancelar", null)
@@ -297,6 +303,7 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 sessionStore.setEstadoConductor("EN_LINEA")
                 actualizarEstadoVisual("EN_LINEA", true)
+                voiceFeedback.speak("Estado en línea")
                 Toast.makeText(this, "Estado: En línea", Toast.LENGTH_SHORT).show()
             }
         }
@@ -307,6 +314,7 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 sessionStore.setEstadoConductor("OCUPADO")
                 actualizarEstadoVisual("OCUPADO", true)
+                voiceFeedback.speak("Estado ocupado")
                 Toast.makeText(this, "Estado: Ocupado (en recorrido)", Toast.LENGTH_SHORT).show()
             }
         }
@@ -332,6 +340,47 @@ class HomeActivity : AppCompatActivity() {
         }
 
         setupBottomNav()
+    }
+
+    private fun setupVoiceCommands() {
+        voiceCommandManager.bind(
+            findViewById(R.id.btn_voice),
+            findViewById(R.id.tv_voice_state)
+        )
+    }
+
+    private fun handleVoiceAction(action: VoiceAction) {
+        if (!sessionStore.isLoggedIn()) {
+            voiceFeedback.speak("La sesión no es válida. Inicia sesión nuevamente")
+            return
+        }
+        if (!sessionStore.isTurnoActivo()) {
+            voiceFeedback.speak("Debes iniciar tu turno antes de realizar esta operación")
+            return
+        }
+        voiceFeedback.speak(
+            when (action) {
+                VoiceAction.ACCEPT_TRIP ->
+                    "No hay un viaje pendiente disponible para aceptar"
+                VoiceAction.CANCEL_TRIP ->
+                    "No hay un viaje activo disponible para cancelar"
+                VoiceAction.ACCEPT_PASSENGERS ->
+                    "No hay una solicitud de pasajeros disponible para confirmar"
+            }
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        voiceCommandManager.onPermissionResult(
+            requestCode,
+            grantResults.isNotEmpty() &&
+                grantResults.all { it == android.content.pm.PackageManager.PERMISSION_GRANTED }
+        )
     }
 
     private fun setupBottomNav() {
@@ -369,6 +418,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        voiceCommandManager.release()
         voiceFeedback.close()
         super.onDestroy()
     }

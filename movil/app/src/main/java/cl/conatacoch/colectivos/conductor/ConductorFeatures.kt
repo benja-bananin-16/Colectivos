@@ -30,7 +30,13 @@ class VoiceFeedback(context: Context) : TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         ready = status == TextToSpeech.SUCCESS
         if (ready) {
-            textToSpeech.language = Locale("es", "CL")
+            val chileLocale = Locale("es", "CL")
+            val languageStatus = textToSpeech.setLanguage(chileLocale)
+            if (languageStatus == TextToSpeech.LANG_MISSING_DATA ||
+                languageStatus == TextToSpeech.LANG_NOT_SUPPORTED
+            ) {
+                textToSpeech.language = Locale("es")
+            }
         }
     }
 

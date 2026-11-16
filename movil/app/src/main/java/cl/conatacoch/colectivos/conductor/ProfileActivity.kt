@@ -22,6 +22,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
+        AccessibilityPreferences.applyTo(this)
         val sessionStore = SessionStore(this)
         voiceFeedback = VoiceFeedback(this)
         panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
@@ -33,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
 
         setupBottomNav()
         setupPanicButton()
+        setupAccessibility()
         setupButtons()
     }
 
@@ -53,6 +55,36 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun setupAccessibility() {
+        val preferences = AccessibilityPreferences(this)
+        val buttons = mapOf(
+            TextScale.NORMAL to findViewById<MaterialCardView>(R.id.btn_text_normal),
+            TextScale.LARGE to findViewById<MaterialCardView>(R.id.btn_text_large),
+            TextScale.EXTRA_LARGE to findViewById<MaterialCardView>(R.id.btn_text_extra_large)
+        )
+        val preview = findViewById<android.widget.TextView>(R.id.tv_text_preview)
+
+        fun select(scale: TextScale) {
+            preferences.setTextScale(scale)
+            AccessibilityPreferences.applyTo(this)
+            preview.text = "Vista previa: ${scale.label}"
+            buttons.forEach { (option, card) ->
+                card.setCardBackgroundColor(
+                    if (option == scale) {
+                        getColor(R.color.brand_yellow)
+                    } else {
+                        android.graphics.Color.TRANSPARENT
+                    }
+                )
+                card.contentDescription = "Tamaño de texto ${option.label}" +
+                    if (option == scale) ", seleccionado" else ""
+            }
+        }
+
+        buttons.forEach { (scale, card) -> card.setOnClickListener { select(scale) } }
+        select(preferences.getTextScale())
     }
 
     private fun setupBottomNav() {

@@ -23,6 +23,7 @@ class PaymentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_payments)
+        AccessibilityPreferences.applyTo(this)
         val sessionStore = cl.conatacoch.colectivos.data.SessionStore(this)
         voiceFeedback = VoiceFeedback(this)
         panicAlertController = PanicAlertController(this, this, sessionStore, voiceFeedback)
