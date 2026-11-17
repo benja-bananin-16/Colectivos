@@ -29,6 +29,13 @@ class Linea(Document):
         'indexes': ['nombre', 'nro_linea', 'activa', 'codigo_recorrido'],
     }
 
+    def clean(self):
+        from apps.common.sanitizers import sanitizar_nombre
+        if self.nombre:
+            self.nombre = sanitizar_nombre(self.nombre)
+        if self.responsable:
+            self.responsable = sanitizar_nombre(self.responsable)
+
     def to_dict(self) -> dict:
         origen_data = self.origen if isinstance(self.origen, dict) else {'nombre': str(self.origen)}
         destino_data = self.destino if isinstance(self.destino, dict) else {'nombre': str(self.destino)}
@@ -82,6 +89,18 @@ class Movil(Document):
         'indexes': ['patente', 'conductor_id', 'linea_id', 'estado'],
     }
 
+    def clean(self):
+        from apps.common.sanitizers import sanitizar_patente, validar_patente
+        if self.patente:
+            if not validar_patente(self.patente):
+                from mongoengine import ValidationError
+                raise ValidationError(f"Patente inválida: '{self.patente}'. Debe tener 6 caracteres con formato chileno (ej: BB-CL-11 o AA-12-34).")
+            self.patente = sanitizar_patente(self.patente)
+        if self.marca:
+            self.marca = str(self.marca).strip().title()
+        if self.modelo:
+            self.modelo = str(self.modelo).strip().title()
+
     def to_dict(self) -> dict:
         return {
             'id': str(self.id),
@@ -129,6 +148,13 @@ class Conductor(Document):
         'collection': 'conductores',
         'indexes': ['usuario_id', 'estado'],
     }
+
+    def clean(self):
+        from apps.common.sanitizers import sanitizar_nombre
+        if self.municipio_licencia:
+            self.municipio_licencia = sanitizar_nombre(self.municipio_licencia)
+        if self.direccion:
+            self.direccion = self.direccion.strip()
 
     def to_dict(self) -> dict:
         return {

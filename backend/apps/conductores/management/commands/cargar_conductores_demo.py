@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 'apellido': 'Venegas Soto',
                 'email': 'rodrigo.venegas@conatacoch.cl',
                 'telefono': '+56984512290',
-                'patente': 'BBCL-11',
+                'patente': 'BB-CL-11',
                 'marca': 'Nissan',
                 'modelo': 'Versa Sense',
                 'anio': 2022,

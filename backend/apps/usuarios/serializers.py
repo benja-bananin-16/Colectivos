@@ -1,4 +1,10 @@
 from rest_framework import serializers
+from apps.common.sanitizers import (
+    sanitizar_nombre,
+    sanitizar_rut,
+    validar_formato_rut,
+    sanitizar_telefono,
+)
 
 
 class UsuarioSerializer(serializers.Serializer):
@@ -13,10 +19,27 @@ class UsuarioSerializer(serializers.Serializer):
     activo = serializers.BooleanField(default=True)
     creado_en = serializers.DateTimeField(read_only=True)
 
+    def validate_nombre(self, value):
+        return sanitizar_nombre(value)
+
+    def validate_apellido(self, value):
+        return sanitizar_nombre(value)
+
+    def validate_rut(self, value):
+        if not validar_formato_rut(value):
+            raise serializers.ValidationError("Formato de RUT inválido.")
+        return sanitizar_rut(value)
+
+    def validate_telefono(self, value):
+        return sanitizar_telefono(value)
+
 
 class LoginSerializer(serializers.Serializer):
     rut = serializers.CharField(max_length=20, required=True, trim_whitespace=True)
     password = serializers.CharField(required=True, write_only=True)
+
+    def validate_rut(self, value):
+        return sanitizar_rut(value)
 
 
 class SesionSerializer(serializers.Serializer):

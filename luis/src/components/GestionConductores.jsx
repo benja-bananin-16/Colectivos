@@ -25,6 +25,7 @@ import {
   Search
 } from 'lucide-react';
 import { mockData } from '../data/mockData';
+import { formatPatente, isValidPatente, formatNombre, formatRut } from '../utils/sanitizers';
 
 const RUTAS_DISPONIBLES = [
   { id: '105', nombre: 'Línea 105 Melipilla', detalle: 'AGRETACOMBO · Av. Manso ↔ Circunvalación Santa Teresa' },
@@ -129,11 +130,19 @@ const GestionConductores = ({ conductores, setConductores, onNavigateCuotas, aut
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    let finalValue = value;
+    if (name === 'patente') finalValue = formatPatente(value);
+    setFormData(prev => ({ ...prev, [name]: finalValue }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const patenteFormateada = formData.patente ? formatPatente(formData.patente) : '';
+    if (patenteFormateada && !isValidPatente(patenteFormateada)) {
+      alert(`La patente '${patenteFormateada}' no cumple con el formato válido chileno (ej: BB-CL-11 o AA-12-34).`);
+      return;
+    }
 
     const rutaSel = RUTAS_DISPONIBLES.find(r => r.id === formData.rutaAsignadaId) || RUTAS_DISPONIBLES[0];
     const impagas = parseInt(formData.cuotasImpagas, 10) || 0;
@@ -143,7 +152,7 @@ const GestionConductores = ({ conductores, setConductores, onNavigateCuotas, aut
     const clave = formData.password.trim() || 'Conatacoch2026';
 
     const conductorData = {
-      nombre: formData.nombre.trim(),
+      nombre: formatNombre(formData.nombre),
       rut: formData.rut.trim(),
       direccion: formData.direccion.trim(),
       telefono: formData.telefono.trim(),
@@ -151,12 +160,12 @@ const GestionConductores = ({ conductores, setConductores, onNavigateCuotas, aut
       email: formData.email.trim(),
       fechaIncorporacion: formData.fechaIncorporacion,
       tipoLicencia: formData.tipoLicencia,
-      municipioLicencia: formData.municipioLicencia.trim(),
+      municipioLicencia: formatNombre(formData.municipioLicencia),
       fechaObtencionLicencia: formData.fechaObtencionLicencia,
       duracionLicenciaAnios: parseInt(formData.duracionLicenciaAnios, 10) || 4,
       vencimientoLicencia: formData.vencimientoLicencia,
       password: clave,
-      patente: formData.patente.trim().toUpperCase(),
+      patente: patenteFormateada,
       vehiculo: formData.vehiculo.trim(),
       anioVehiculo: parseInt(formData.anioVehiculo, 10) || 2022,
       rutaAsignadaId: rutaSel.id,

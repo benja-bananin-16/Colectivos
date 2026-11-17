@@ -131,7 +131,7 @@ class RouteActivity : AppCompatActivity() {
             position = centroPoint
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             title = "Tu Móvil · En línea"
-            snippet = "$nombreRuta · Patente BBCL-11"
+            snippet = "$nombreRuta · Patente BB-CL-11"
         }
         mapView.overlays.add(markerConductor)
 

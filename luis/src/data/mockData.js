@@ -27,7 +27,7 @@ export const mockData = {
       vencimientoLicencia: '2028-11-15', // Fecha de vencimiento
       password: 'Conatacoch2026',
       email: 'rodrigo.venegas@conatacoch.cl',
-      patente: 'BBCL-11',
+      patente: 'BB-CL-11',
       vehiculo: 'Nissan Versa Sense 1.6 (Blanco)',
       anioVehiculo: 2022,
       estado: 'Activo',
@@ -132,7 +132,7 @@ export const mockData = {
     {
       id: 'AUT-001',
       numeroInterno: 'M-101',
-      patente: 'BBCL-11',
+      patente: 'BB-CL-11',
       marca: 'Nissan',
       modelo: 'Versa Sense 1.6 MT',
       anio: 2022,
@@ -224,7 +224,7 @@ export const mockData = {
     }
   ],
   incidentes: [
-    { id: 'INC-101', fecha: '2026-11-06 15:30', tipo: 'Botón de Pánico', origen: 'Conductor (BBCL-11)', sector: 'Melipilla Centro', estado: 'Resuelto' },
+    { id: 'INC-101', fecha: '2026-11-06 15:30', tipo: 'Botón de Pánico', origen: 'Conductor (BB-CL-11)', sector: 'Melipilla Centro', estado: 'Resuelto' },
     { id: 'INC-102', fecha: '2026-11-07 09:15', tipo: 'Consulta Pasajero', origen: 'Pasajero', sector: 'Santiago - Vitacura', estado: 'Resuelto' }
   ],
   indicadores: {

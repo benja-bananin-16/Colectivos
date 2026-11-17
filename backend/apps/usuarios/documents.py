@@ -24,6 +24,22 @@ class Usuario(Document):
         'ordering': ['-creado_en'],
     }
 
+    def clean(self):
+        from apps.common.sanitizers import sanitizar_nombre, sanitizar_rut, validar_formato_rut, sanitizar_telefono
+        if self.nombre:
+            self.nombre = sanitizar_nombre(self.nombre)
+        if self.apellido:
+            self.apellido = sanitizar_nombre(self.apellido)
+        if self.rut:
+            if not validar_formato_rut(self.rut):
+                from mongoengine import ValidationError
+                raise ValidationError(f"Formato de RUT inválido: '{self.rut}'.")
+            self.rut = sanitizar_rut(self.rut)
+        if self.email:
+            self.email = self.email.strip().lower()
+        if self.telefono:
+            self.telefono = sanitizar_telefono(self.telefono)
+
     def set_password(self, raw_password: str):
         """Hashea la contraseña en texto plano."""
         self.password = make_password(raw_password)

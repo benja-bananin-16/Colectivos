@@ -55,14 +55,15 @@ class LoginActivity : AppCompatActivity() {
 
         // Botón 1: «Entrar» (Valida contra la API real)
         btnLogin.setOnClickListener {
-            val rut = etRut.text.toString().trim()
+            val rutRaw = etRut.text.toString().trim()
             val pass = etPass.text.toString().trim()
 
-            if (rut.isEmpty() || pass.isEmpty()) {
+            if (rutRaw.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Por favor ingrese su RUT y contraseña", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            val rut = cl.conatacoch.colectivos.utils.DataSanitizer.formatRut(rutRaw)
             ejecutarLoginReal(rut, pass)
         }
 

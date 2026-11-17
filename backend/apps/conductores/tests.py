@@ -2,6 +2,49 @@ import unittest
 from datetime import datetime, timezone
 from apps.conductores.documents import Conductor, Movil
 from apps.conductores.serializers import ConductorSerializer, MovilSerializer
+from apps.common.sanitizers import (
+    sanitizar_patente,
+    validar_patente,
+    sanitizar_nombre,
+    sanitizar_rut,
+    validar_formato_rut,
+)
+
+
+class SanitizacionDatosTestCase(unittest.TestCase):
+    def test_sanitizacion_patente_formato_unificado(self):
+        """Valida que todas las patentes (nuevas o antiguas) se normalicen con guion cada dos caracteres (XX-XX-XX)."""
+        self.assertEqual(sanitizar_patente('bbcl11'), 'BB-CL-11')
+        self.assertEqual(sanitizar_patente('BBCL-11'), 'BB-CL-11')
+        self.assertEqual(sanitizar_patente('cf-rd-88'), 'CF-RD-88')
+        self.assertEqual(sanitizar_patente('CF-RD-88'), 'CF-RD-88')
+        self.assertEqual(sanitizar_patente('aa1234'), 'AA-12-34')
+        self.assertEqual(sanitizar_patente('AA-12-34'), 'AA-12-34')
+
+    def test_validacion_patente(self):
+        """Valida detección de patentes chilenas válidas e inválidas."""
+        self.assertTrue(validar_patente('BBCL11'))
+        self.assertTrue(validar_patente('BB-CL-11'))
+        self.assertTrue(validar_patente('CF-RD-88'))
+        self.assertTrue(validar_patente('AA1234'))
+        self.assertFalse(validar_patente('PATENTE_INVALIDA'))
+        self.assertFalse(validar_patente('12345'))
+        self.assertFalse(validar_patente('ABCDEF'))  # 6 letras no es patente chilena
+        self.assertFalse(validar_patente('123456'))  # 6 números no es patente chilena
+
+    def test_sanitizacion_nombres(self):
+        """Valida limpieza de espacios múltiples y conversión a Title Case."""
+        self.assertEqual(sanitizar_nombre('  carlos   valenzuela  '), 'Carlos Valenzuela')
+        self.assertEqual(sanitizar_nombre('RODRIGO ANDRÉS VENEGAS'), 'Rodrigo Andrés Venegas')
+        self.assertEqual(sanitizar_nombre('juan'), 'Juan')
+
+    def test_sanitizacion_rut(self):
+        """Valida formateo de RUT a XX.XXX.XXX-X."""
+        self.assertEqual(sanitizar_rut('111111111'), '11.111.111-1')
+        self.assertEqual(sanitizar_rut('16294508k'), '16.294.508-K')
+        self.assertEqual(sanitizar_rut('16.294.508-K'), '16.294.508-K')
+        self.assertTrue(validar_formato_rut('16.294.508-K'))
+        self.assertFalse(validar_formato_rut('abc'))
 
 
 class ProtocoloInacapCRUDTestCase(unittest.TestCase):
@@ -34,7 +77,7 @@ class ProtocoloInacapCRUDTestCase(unittest.TestCase):
         """Valida que Movil soporte combustible y vigencias completas exigidas por INACAP."""
         movil = Movil(
             numero_interno='M-101',
-            patente='BBCL-11',
+            patente='BB-CL-11',
             marca='Nissan',
             modelo='Versa Sense 1.6 MT',
             anio=2022,
@@ -58,7 +101,7 @@ class ProtocoloInacapCRUDTestCase(unittest.TestCase):
             }
         )
         d = movil.to_dict()
-        self.assertEqual(d['patente'], 'BBCL-11')
+        self.assertEqual(d['patente'], 'BB-CL-11')
         self.assertEqual(d['combustible'], 'Bencina')
         self.assertEqual(d['permiso_circulacion']['comuna'], 'Melipilla')
         self.assertEqual(d['revision_tecnica']['planta'], 'SGS Melipilla AB-1302')
@@ -68,9 +111,9 @@ class ProtocoloInacapCRUDTestCase(unittest.TestCase):
         """Valida que MovilSerializer acepte y valide los datos de automóviles correctamente."""
         data = {
             'numero_interno': 'M-102',
-            'patente': 'CF-RD-88',
-            'marca': 'Toyota',
-            'modelo': 'Yaris',
+            'patente': 'cf-rd-88',  # en minúsculas y desordenado
+            'marca': 'toyota',      # en minúsculas
+            'modelo': 'yaris',
             'anio': 2020,
             'combustible': 'Bencina',
             'permiso_circulacion': {'comuna': 'Santiago Centro', 'fecha_otorgacion': '2026-03-25', 'vencimiento': '2027-03-31'},
@@ -79,3 +122,8 @@ class ProtocoloInacapCRUDTestCase(unittest.TestCase):
         }
         serializer = MovilSerializer(data=data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
+        # Verifica que la patente se haya normalizado a XX-XX-XX mayúscula
+        self.assertEqual(serializer.validated_data['patente'], 'CF-RD-88')
+        # Verifica que marca y modelo se hayan normalizado a Title Case
+        self.assertEqual(serializer.validated_data['marca'], 'Toyota')
+        self.assertEqual(serializer.validated_data['modelo'], 'Yaris')

@@ -21,6 +21,7 @@ import {
   Eye
 } from 'lucide-react';
 import { mockData } from '../data/mockData';
+import { formatPatente, isValidPatente } from '../utils/sanitizers';
 
 const COMBUSTIBLES = ['Bencina', 'Diésel', 'Híbrido', 'Eléctrico', 'GLP', 'GNC'];
 
@@ -102,15 +103,21 @@ const GestionAutomoviles = ({ automoviles, setAutomoviles, conductores = [] }) =
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const finalValue = name === 'patente' ? formatPatente(value) : value;
+    setFormData(prev => ({ ...prev, [name]: finalValue }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const patenteFormateada = formData.patente.toUpperCase().trim();
+    const patenteFormateada = formatPatente(formData.patente);
     if (!patenteFormateada) {
       alert('La patente es obligatoria.');
+      return;
+    }
+
+    if (!isValidPatente(patenteFormateada)) {
+      alert(`La patente '${patenteFormateada}' no es válida. Debe tener 6 caracteres y formato chileno (ej: BB-CL-11 o AA-12-34).`);
       return;
     }
 

@@ -65,6 +65,18 @@ class MovilSerializer(serializers.Serializer):
     revision_tecnica = serializers.JSONField(required=False)
     seguro_obligatorio = serializers.JSONField(required=False)
 
+    def validate_patente(self, value):
+        from apps.common.sanitizers import validar_patente, sanitizar_patente
+        if not validar_patente(value):
+            raise serializers.ValidationError("Patente inválida. Debe tener 6 caracteres y formato chileno (ej: BB-CL-11 o AA-12-34).")
+        return sanitizar_patente(value)
+
+    def validate_marca(self, value):
+        return str(value).strip().title()
+
+    def validate_modelo(self, value):
+        return str(value).strip().title()
+
 
 class LineaSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
